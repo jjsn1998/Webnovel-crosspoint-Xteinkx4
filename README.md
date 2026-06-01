@@ -46,8 +46,7 @@ This repository is shared as the working result of that process.
 
 GitHub structure
 
-'''
-
+'''bash
 webnovel-crosspoint-xteinkx4/
 |-- README.md
 |-- .gitignore
@@ -58,7 +57,7 @@ webnovel-crosspoint-xteinkx4/
 │   └── watcher.sh
 └── examples/
     └── test-chapter.html
-    
+    '''
 
 Create the folders on Unraid
 
