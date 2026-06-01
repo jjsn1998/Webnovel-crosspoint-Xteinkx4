@@ -46,7 +46,7 @@ This repository is shared as the working result of that process.
 
 GitHub structure
 
-```bash
+```
 webnovel-crosspoint-xteinkx4/
 |-- README.md
 |-- .gitignore
@@ -57,10 +57,11 @@ webnovel-crosspoint-xteinkx4/
 │   └── watcher.sh
 └── examples/
     └── test-chapter.html
-    ```
+```
+    
 
 Create the folders on Unraid
-
+```
 mkdir -p /mnt/user/data/webnovel-epub/input
 mkdir -p /mnt/user/data/webnovel-epub/output
 mkdir -p /mnt/user/data/webnovel-epub/app
@@ -69,14 +70,16 @@ mkdir -p /mnt/user/data/webnovel-epub/imported-html
 mkdir -p /mnt/user/data/webnovel-epub/failed
 mkdir -p /mnt/user/data/webnovel-epub/calibre-ingest
 mkdir -p /mnt/user/data/webnovel-epub/logs
+```
 
 Optional permission cleanup:
-
+```
 chown -R nobody:users /mnt/user/data/webnovel-epub
 chmod -R 777 /mnt/user/data/webnovel-epub
+```
 
 Folder purpose
-
+```
 input          Put saved .html/.htm files here
 processing     Temporary folder while conversion is happening
 imported-html  Successfully converted original HTML files
@@ -84,31 +87,36 @@ failed         HTML files that failed conversion
 calibre-ingest EPUBs ready for Calibre to auto-import
 logs           Watcher logs
 app            Dockerfiles and scripts
+```
 
 Install the project files on Unraid
 
 Copy the contents of the app/ folder from this repository into:
-
+```
 /mnt/user/data/webnovel-epub/app
+```
 
 So it should look like:
-
+```
 /mnt/user/data/webnovel-epub/app/Dockerfile
 /mnt/user/data/webnovel-epub/app/Dockerfile.watcher
 /mnt/user/data/webnovel-epub/app/html_to_epub.py
 /mnt/user/data/webnovel-epub/app/watcher.sh
+```
 
 Make the watcher executable:
-
+```
 chmod +x /mnt/user/data/webnovel-epub/app/watcher.sh
+```
 
 Build the watcher Docker image
-
+```
 cd /mnt/user/data/webnovel-epub/app
 docker build -f Dockerfile.watcher -t webnovel-epub-watcher .
+```
 
 Run the watcher container
-
+```
 docker run -d \
   --name webnovel-epub-watcher \
   --restart unless-stopped \
@@ -120,36 +128,47 @@ docker run -d \
   -v /mnt/user/data/webnovel-epub/calibre-ingest:/calibre-ingest \
   -v /mnt/user/data/webnovel-epub/logs:/logs \
   webnovel-epub-watcher
+```
 
 Check that the watcher is running
-
+```
 docker ps | grep webnovel-epub-watcher
+```
 
 Check logs
-
+```
 cat /mnt/user/data/webnovel-epub/logs/watcher.log
+```
 
 Live log:
-
+```
 tail -f /mnt/user/data/webnovel-epub/logs/watcher.log
+```
 
 Connect it to Calibre
-
+```
 In the Calibre Docker container, add this path mapping:
+```
 
 Host path:
+```
 /mnt/user/data/webnovel-epub/calibre-ingest
+```
 
 Container path:
+```
 /ingest
+```
 
 Then inside Calibre:
-
+```
 Preferences → Adding books → Automatic adding
+```
 
 Set the automatic adding folder to:
-
+```
 /ingest
+```
 
 After that, any EPUB created in calibre-ingest should automatically appear in Calibre.
 
@@ -158,18 +177,21 @@ Normal usage
 Save a webpage as .html or .htm.
 
 Put that file into:
-
+```
 /mnt/user/data/webnovel-epub/input
+```
 
 The watcher converts it.
 
 The original HTML moves to:
-
+```
 /mnt/user/data/webnovel-epub/imported-html
+```
 
 The EPUB appears in:
-
+```
 /mnt/user/data/webnovel-epub/calibre-ingest
+```
 
 Calibre imports it.
 
@@ -194,9 +216,10 @@ If a file does not have .html or .htm at the end, the watcher will ignore it.
 Fix a file with no extension
 
 If a saved file lands in the input folder without .html, run:
-
+```
 find /mnt/user/data/webnovel-epub/input -maxdepth 1 -type f ! -iname "*.html" ! -iname "*.htm" -print0 | while IFS= read -r -d '' f; do
   mv "$f" "$f.html"
+```
 done
 
 Stop and remove the watcher
@@ -205,10 +228,10 @@ docker stop webnovel-epub-watcher
 docker rm webnovel-epub-watcher
 
 Rebuild after editing code
-
+```
 cd /mnt/user/data/webnovel-epub/app
 docker build -f Dockerfile.watcher -t webnovel-epub-watcher .
-
+```
 Then restart the container with the same docker run command above.
 
 Notes
@@ -216,8 +239,8 @@ Notes
 The converter removes images by default. This is intentional because the target e-reader setup behaved better with cleaner, lighter EPUB files.
 
 The converter splits the book into smaller internal EPUB sections using this setting inside watcher.sh:
-
+```
 --chunk-size 3500
-
+```
 A smaller chunk size creates more internal EPUB sections. A larger chunk size creates fewer sections.
 
