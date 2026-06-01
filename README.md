@@ -46,7 +46,9 @@ This repository is shared as the working result of that process.
 
 GitHub structure
 
-'''bash
+```bash
+pip install esptool
+```
 webnovel-crosspoint-xteinkx4/
 |-- README.md
 |-- .gitignore
