@@ -15,6 +15,10 @@ This project does not scrape websites by URL.
 
 It only works with saved .html or .htm files that you put into the input folder.
 
+I use the SingleFile extension on Firefox to save the webpage as a single HTML file.
+
+I also adjusted the naming. By default, SingleFile saves with date and time, but I removed that so that the file name now just shows the chapter title
+
 Current working environment
 
 This is the setup I currently have working:
