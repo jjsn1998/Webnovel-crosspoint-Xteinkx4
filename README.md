@@ -47,9 +47,9 @@ This repository is shared as the working result of that process.
 GitHub structure
 
 webnovel-crosspoint-xteinkx4/
-├── README.md
-├── .gitignore
-├── app/
+|-- README.md
+|-- .gitignore
+|--- app/
 │   ├── Dockerfile
 │   ├── Dockerfile.watcher
 │   ├── html_to_epub.py
