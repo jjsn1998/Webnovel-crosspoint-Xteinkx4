@@ -1,0 +1,13 @@
+input/
+output/
+processing/
+imported-html/
+failed/
+calibre-ingest/
+logs/
+*.epub
+*.html
+*.htm
+.DS_Store
+__pycache__/
+*.pyc
